@@ -1,6 +1,6 @@
 ## Getting Started
 
-* 그냥 코드 저장용?ㄴ
+* 그냥 코드 저장용??
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 
