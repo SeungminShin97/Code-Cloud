@@ -15,10 +15,12 @@ class node {
 }
 
 public class Main {
+    public static int xfish;
+    public static int yfish;
     public static int fishSize = 2;
     public static int fishEatCnt = 0;
     public static Queue<node> q;
-    public static PriorityQueue<node> q2;
+    public static Queue<node> q2;
     public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -33,42 +35,67 @@ public class Main {
                 if(input == 9) {
                     q.add(new node(j, i, 0, -1));
                     arr[i][j][0] = 0;
+                    xfish = j;
+                    yfish = i;
                 }
                 else if(input > 0) 
                     size[input - 1] += 1;
             }
         }
         int time = 0;
-        q2 = new PriorityQueue<>((o1,o2) -> {
-            node a = (node) o1;
-            node b = (node) o2;
-            if(a.time == b.time) {
-                if(a.y == b.y) {
-                    if(a.x < b.x)
-                        return -1;
-                    else 
-                        return 1;
-                }
-                else if(a.y > b.y)
-                    return -1;
-                else
-                    return 1;
-            }
-            else if(a.time < b.time)
-                return -1;
-            else 
-                return 1;
-        });
+        q2 = new LinkedList<>();
         while(caneat(size, fishSize) && !q.isEmpty()) {
             int x = q.peek().x;
             int y = q.peek().y;
             time = q.peek().time;
             int timelocate = q.peek().timelocate;
-            if(y > 0 && arr[y - 1][x][0] <= fishSize && arr[y - 1][x][1] != timelocate) {// 위쪽
+            if(y > 0 && arr[y - 1][x][0] <= fishSize && arr[y - 1][x][1] != timelocate) {       // 위쪽
+                q.add(new node(x, y - 1, time + 1, timelocate));
                 if(arr[y - 1][x][0] > 0 && arr[y - 1][x][0] < fishSize) 
-                    q2.add(new node(x, y - 1, ))
+                    q2.add(new node(x, y - 1, time + 1, timelocate));
             }
-
+            if(x > 0 && arr[y][x - 1][0] <= fishSize && arr[y][x - 1][1] != timelocate) {       // 왼쪽
+                q.add(new node(x - 1, y, time + 1, timelocate));
+                if(arr[y][x - 1][0] > 0 && arr[y][x - 1][0] < fishSize)
+                    q2.add(new node(x - 1, y, time + 1, timelocate));
+            }
+            if(x < n - 1 && arr[y][x + 1][0] <= fishSize && arr[y][x + 1][1] != timelocate) {   // 오른쪽
+                q.add(new node(x + 1, y, time + 1, timelocate));
+                if(arr[y][x + 1][0] > 0 && arr[y][x + 1][0] < fishSize)
+                    q2.add(new node(x + 1, y, time + 1, timelocate));
+            }
+            if(y < n - 1 && arr[y + 1][x][0] <= fishSize && arr[y + 1][x][1] != timelocate) {   // 아래
+                q.add(new node(x, y + 1, time + 1, timelocate));
+                if(arr[y + 1][x][0] > 0 && arr[y + 1][x][0] < fishSize)
+                    q2.add(new node(x, y + 1, time + 1, timelocate));
+            }
+            if(q.size() == 1) {
+                if(q2.size() == 1)
+                    q.add(q2.poll());
+                else {
+                    int nx = q2.peek().x;
+                    int ny = q2.peek().y;
+                    int ndegree = Math.abs(xfish - nx) + Math.abs(yfish - ny);
+                    while(!q2.isEmpty()) {
+                        int mx = q2.peek().x;
+                        int my = q2.peek().y;
+                        int mdegree = Math.abs(xfish - mx) + Math.abs(yfish - my);
+                        if(ndegree == mdegree) {
+                            if(ny == my) {
+                                
+                            }
+                            else if(ny < my) {
+                                
+                            }
+                        }
+                        else if(ndegree > mdegree) {
+                            nx = mx;
+                            ny = my;
+                            ndegree = mdegree;
+                        }
+                    }
+                }
+            }
         }
     }
     
