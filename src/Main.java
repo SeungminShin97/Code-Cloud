@@ -13,12 +13,20 @@ public class Main {
             int n = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
-            int m1 = m;
+            int m1 = 0;
             int lcm = m * n / ((m > n) ? GCD(m, n) : GCD(n, m));
             while(m1 <= lcm) {
-                
+                if((m1 + x) % n == y) {
+                    sb.append(m1 + x + "\n");
+                    break;
+                }   
+                else 
+                    m1 += m;
             }
+            if(m1 > lcm)
+                sb.append("-1\n");
         }
+        System.out.println(sb);
     }
 
     public static int GCD(int a, int b) {
