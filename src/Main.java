@@ -13,10 +13,11 @@ public class Main {
             int n = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
+            int y1 = (n == y) ? y : 0;
             int m1 = 0;
             int lcm = m * n / ((m > n) ? GCD(m, n) : GCD(n, m));
             while(m1 <= lcm) {
-                if((m1 + x) % n == y) {
+                if((m1 + x) % n == y - y1) {
                     sb.append(m1 + x + "\n");
                     break;
                 }   
